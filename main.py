@@ -26,9 +26,13 @@ def get_user_text(message):
     elif message.text == "Project":
         # URL send
         markup = types.InlineKeyboardMarkup()
-        markup.add(types.InlineKeyboardButton("Website Project", url="albatrosry.com"))
+        markup.add(types.InlineKeyboardButton("First Project", url="albatrosry.com"))
         markup.add(types.InlineKeyboardButton("My Page", url="https://albatrosry.com/?page_id=1257&lang=fi"))
-        bot.send_message(message.chat.id, "Here is the site that I created.\nNow there is a new administrator, who deleted half of features what i added :( \nBut on \"My Page\" you can see proofs about that i been andministrator of that website.", reply_markup=markup)
+        markup.add(types.InlineKeyboardButton("Second Project", url="https://artur-nayman.github.io/Asiakasty-2022v2/"))
+        bot.send_message(message.chat.id, "Here is the sites that I created.\nNow in the first is a new administrator, who deleted half of features what i added :( \nBut on \"My Page\" you can see proofs about that i been andministrator of that website.\nIn second project you can see original web site created when i was project manager", reply_markup=markup)
+
+
+
     elif message.text == "CV":
         #CV send
         markup = types.InlineKeyboardMarkup()
