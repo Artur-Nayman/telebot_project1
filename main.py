@@ -3,6 +3,23 @@ from telebot import types
 from bs4 import BeautifulSoup as BS
 from requests import get
 
+#phpMyADmin start
+'''
+import mysql.connector
+
+conn = mysql.connector.connect(
+    host="localhost",
+    port="3306",
+    user="root",
+    password="root",
+    database="artur_bot"
+)
+
+cursor = conn.cursor()
+query = "INSERT INTO users (name, email) VALUES (%s, %s)"
+#phpMyAdmin end
+'''
+
 url = "https://www.eneba.com/store/xbox-game-pass?drms[]=xbox&page=1&regions[]=emea&regions[]=europe&regions[]=finland&regions[]=global&text=game%20pass%20subscription&types[]=subscription"
 bot = telebot.TeleBot('6258928093:AAERQF1wZjvEaDTBeTlVQPGAQFC_lk1KADw')
 r = get(url)
@@ -14,7 +31,6 @@ game = [c.text for c in not_clear_game]
 game_price =[c.text for c in not_clear_price]
 price = [float(price[1:]) for price in game_price] #Превращает в флоат каждый элемент списка не считая превый
 filter_price = 0
-
 n_game = []
 
 def prices():
@@ -42,9 +58,9 @@ def start(message):
 
 @bot.message_handler(func=lambda message: True) #Xbox message and others in same handler
 def handle_message(message):
+
     global filter_price  # Объявление глобальной переменной
     global n_game
-
     try:
         filter_price = float(message.text)  # Преобразование введенного значения в число
         prices()
