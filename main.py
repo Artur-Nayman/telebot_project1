@@ -40,10 +40,9 @@ def start(message):
     markup.add(project, cv, hub, linked)
     bot.send_message(message.chat.id, f"Hello {message.from_user.first_name}!", reply_markup=markup)
 
-@bot.message_handler(func=lambda message: True) #Xbox message
+@bot.message_handler(func=lambda message: True) #Xbox message and others in same handler
 def handle_message(message):
     global filter_price  # Объявление глобальной переменной
-    global n_price
     global n_game
 
     try:
@@ -62,12 +61,8 @@ def handle_message(message):
     except ValueError:
         None
 
-
-# Speak and answer
-@bot.message_handler() #Other
-def get_user_text(message):
     greetings = ["Hello", "Hi", "hello", "hi", "Good morning", "good morning", "Good afternoon", "Good evening", "Greetings", "Howdy", "good afternoon", "good evening", "greetings", "howdy"]
-    tynks = ["ty", "Thank you" "Thanks", "Ty", "thank you", "thanks"]
+    tynks = ["ty", "Thank you", "Thanks", "Ty", "thank you", "thanks"]
     if any(greeting in message.text for greeting in greetings):
         bot.send_message(message.chat.id, "How can i help you? \n\nYou can look at the list of buttons at the bottom right to select one of the available options", parse_mode="html")
     elif any(tynks in message.text for tynks in tynks):
@@ -78,7 +73,7 @@ def get_user_text(message):
         markup.add(types.InlineKeyboardButton("First Project", url="albatrosry.com"))
         markup.add(types.InlineKeyboardButton("My Page", url="https://albatrosry.com/?page_id=1257&lang=fi"))
         markup.add(types.InlineKeyboardButton("Second Project", url="https://artur-nayman.github.io/Asiakasty-2022v2/"))
-        bot.send_message(message.chat.id, "Here is the sites that I created.\nNow in the first is a new administrator, who deleted half of features what i added :( \nBut on \"My Page\" you can see proofs about that i been andministrator of that website.\nIn second project you can see original web site created when i was project manager", reply_markup=markup)
+        bot.send_message(message.chat.id, "Here is the sites that I created.\nNow in the first is a new administrator, who deleted half of features what i added :( \nBut on \"My Page\" you can see proofs about that i been andministrator of that website.\nIn second project you can see original web site created when i was project manager. \nNew projects you can see on my GitHub.", reply_markup=markup)
 
     elif message.text == "CV":
         #CV send
@@ -99,10 +94,6 @@ def get_user_text(message):
         markup = types.InlineKeyboardMarkup()
         markup.add(types.InlineKeyboardButton("Linkedin", url="https://www.linkedin.com/in/artur-nayman-98ba12200/"))
         bot.send_message(message.chat.id, "Here is my LinkedIn", reply_markup=markup)
-    elif message.text == [1,2,3,4,5,6,7,8,9,0]:
-        print("nothing")
-    else:
-        bot.send_message(message.chat.id, "I'm sorry, I didn't understand the command")
 
 # none stop working
 bot.polling(none_stop=True)
