@@ -40,6 +40,7 @@ def prices():
             sql = "INSERT INTO xbox (Title, Price) VALUES (%s, %s)"
             cursor.execute(sql, (Title, Price))
             conn.commit()
+        # Закрытие курсора и соединения с базой данных
         cursor.close()
         conn.close()
     except:
@@ -65,15 +66,17 @@ def handle_message(message):
     try:
         filter_price = float(message.text)  # Преобразование введенного значения в число
         prices()
-        # Формирование строки с переносами строк
-        games_str = ''
-        for i, game in enumerate(n_game):
-            games_str += str(game)
-            if (i + 1) % 2 == 0:  # Проверка, является ли индекс текущего элемента вторым элементом пары
-                games_str += '\n -'
-            else:
-                games_str += '\n $'
-        bot.reply_to(message, f'Вот что я нашёл по указанной ниже цене: \n -{games_str}')
+        # Выполнение SQL-запроса для выборки данных
+        sql = "SELECT Title, Price FROM xbox"
+        cursor.execute(sql)
+        # Получение результатов запроса
+        results = cursor.fetchall()
+        # Вывод данных
+        for row in results:
+            title = row[0]# Получение названия игры из первого столбца (индекс 0)
+            price = row[1] # Получение цены игры из второго столбца (индекс 1)
+            bot.reply_to(message, f'Title: {title} \n \nPrice: {price}$')
+
 
         return
     except ValueError:
