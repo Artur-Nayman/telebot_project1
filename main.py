@@ -1,30 +1,16 @@
 import telebot
+import mysql.connector
 from telebot import types
 from bs4 import BeautifulSoup as BS
 from requests import get
 
-#phpMyADmin start
-'''
-import mysql.connector
 
-conn = mysql.connector.connect(
-    host="localhost",
-    port="3306",
-    user="root",
-    password="root",
-    database="artur_bot"
-)
-
+conn = mysql.connector.connect(host="localhost", port="3306", user="root", password="root", database="artur_bot")
 cursor = conn.cursor()
-query = "INSERT INTO users (name, email) VALUES (%s, %s)"
-#phpMyAdmin end
-'''
-
 url = "https://www.eneba.com/store/xbox-game-pass?drms[]=xbox&page=1&regions[]=emea&regions[]=europe&regions[]=finland&regions[]=global&text=game%20pass%20subscription&types[]=subscription"
 bot = telebot.TeleBot('6258928093:AAERQF1wZjvEaDTBeTlVQPGAQFC_lk1KADw')
 r = get(url)
 site = BS(r.text, 'html.parser')
-
 not_clear_game = site.find_all('span', class_="YLosEL")
 not_clear_price = site.find_all('span', class_="L5ErLT")
 game = [c.text for c in not_clear_game]
@@ -33,18 +19,31 @@ price = [float(price[1:]) for price in game_price] #Превращает в фл
 filter_price = 0
 n_game = []
 
+
+
 def prices():
+    #global gamel
+    global n_game
+    global game
     try:
+        delete_query = "DELETE FROM xbox"
+        cursor.execute(delete_query)
         count = -1
         while count != game:
             count = count + 1
             if price[count] > filter_price:
                 continue
+            Title = game[count]
+            Price = price[count]
             n_game.append(game[count])
             n_game.append(price[count])
+            sql = "INSERT INTO xbox (Title, Price) VALUES (%s, %s)"
+            cursor.execute(sql, (Title, Price))
+            conn.commit()
+        cursor.close()
+        conn.close()
     except:
         None
-
 
 @bot.message_handler(commands=["start"])# StartBot with buttons
 def start(message):
@@ -58,9 +57,11 @@ def start(message):
 
 @bot.message_handler(func=lambda message: True) #Xbox message and others in same handler
 def handle_message(message):
-
-    global filter_price  # Объявление глобальной переменной
+    global filter_price
     global n_game
+    global game
+    #Вывод списка Xbox
+    #Xbox list
     try:
         filter_price = float(message.text)  # Преобразование введенного значения в число
         prices()
@@ -73,6 +74,7 @@ def handle_message(message):
             else:
                 games_str += '\n $'
         bot.reply_to(message, f'Вот что я нашёл по указанной ниже цене: \n -{games_str}')
+
         return
     except ValueError:
         None
