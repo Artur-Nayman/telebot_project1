@@ -91,10 +91,10 @@ def handle_message(message):
     #List of words on which bot gonna react
     greetings = ["Hello", "Hi", "hello", "hi", "Good morning", "good morning", "Good afternoon", "Good evening", "Greetings", "Howdy", "good afternoon", "good evening", "greetings", "howdy", "Meowdy", "meowdy"]
     tynks = ["ty", "Thank you", "Thanks", "Ty", "thank you", "thanks", "thx", "Thx", "THX", "Thy", "thy", "appreciate", "Appreciate"]
-    #react to greetings
+    #react to greetings in message
     if any(greeting in message.text for greeting in greetings):
         bot.send_message(message.chat.id, "How can i help you? \n\nYou can look at the list of buttons at the bottom right to select one of the available options", parse_mode="html")
-    #react to tynks
+    #react to tynks in message
     elif any(tynks in message.text for tynks in tynks):
         bot.send_message(message.chat.id, "Always at your service", parse_mode="html")
     #Button for my project(in future gonna be portfolio
@@ -120,13 +120,13 @@ def handle_message(message):
         # URL send
         markup = types.InlineKeyboardMarkup()
         markup.add(types.InlineKeyboardButton("To GitHub", url="https://github.com/Artur-Nayman"))
-        bot.send_message(message.chat.id, "Here is my GitHub", reply_markup=markup)
+        bot.send_message(message.chat.id, "Here you can look at my GitHub page", reply_markup=markup)
     #Button for my LinkedIn
     elif message.text == "LinkedIn":
         # URL send
         markup = types.InlineKeyboardMarkup()
         markup.add(types.InlineKeyboardButton("Linkedin", url="https://www.linkedin.com/in/artur-nayman-98ba12200/"))
-        bot.send_message(message.chat.id, "Here is my LinkedIn", reply_markup=markup)
+        bot.send_message(message.chat.id, "Here you can look at my LinkedIn profile", reply_markup=markup)
 
 # none stop working
 bot.polling(none_stop=True)
