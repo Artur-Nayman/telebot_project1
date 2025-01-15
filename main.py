@@ -19,7 +19,7 @@ not_clear_game = site.find_all('span', class_="YLosEL")
 not_clear_price = site.find_all('span', class_="L5ErLT")
 game = [c.text for c in not_clear_game]
 game_price =[c.text for c in not_clear_price]
-price = [float(price[1:]) for price in game_price] #Превращает в флоат каждый элемент списка не считая превый | Transformation into float every element instead first
+price = [float(price[1:]) for price in game_price] #Перетворює у флоат кожен елемент списка окрім першого | Transformation into float every element instead first
 filter_price = 0
 n_game = []
 
@@ -44,7 +44,7 @@ def prices():
             sql = "INSERT INTO xbox (Title, Price) VALUES (%s, %s)"
             cursor.execute(sql, (Title, Price))
             conn.commit()
-        # Закрытие курсора и соединения с базой данных | Closing the cursor and connecting to the database
+        # Закриття курсора і з'єднання з базою даних | Closing the cursor and connecting to the database
         cursor.close()
         conn.close()
     except:
@@ -68,20 +68,20 @@ def handle_message(message):
     #Вивід списку Xbox
     #Xbox list output
     try:
-        filter_price = float(message.text)  # Преобразование введенного значения в число | Conversion of the entered value into a number
+        filter_price = float(message.text)  # Преобразовання введенного значення в число | Conversion of the entered value into a number
         prices()
-        # Выполнение SQL-запроса для выборки данных
+        # Виповнення SQL-запроса для виборки даних
         # Exrcution of SQL-query for data selection
         sql = "SELECT Title, Price FROM xbox"
         cursor.execute(sql)
-        # Получение результатов запроса
+        # Отримування результатів запросу
         # Receiving request results
         results = cursor.fetchall()
-        # Вывод данных
+        # Вивід даних
         # Data output
         for row in results:
-            title = row[0]# Получение названия игры из первого столбца (индекс 0) | Get name of game (index 0)
-            price = row[1] # Получение цены игры из второго столбца (индекс 1) | Get price of game (index 1)
+            title = row[0]# Отримування назви гри з першого стовбця (індекс 0) | Get name of game (index 0)
+            price = row[1] # Отримування ціни гри з другого стовбця (індекс 1) | Get price of game (index 1)
             bot.reply_to(message, f'Title: {title} \n \nPrice: {price}$') #Send answer
 
 
@@ -89,8 +89,8 @@ def handle_message(message):
     except ValueError:
         None
     #List of words on which bot gonna react
-    greetings = ["Hello", "Hi", "hello", "hi", "Good morning", "good morning", "Good afternoon", "Good evening", "Greetings", "Howdy", "good afternoon", "good evening", "greetings", "howdy"]
-    tynks = ["ty", "Thank you", "Thanks", "Ty", "thank you", "thanks"]
+    greetings = ["Hello", "Hi", "hello", "hi", "Good morning", "good morning", "Good afternoon", "Good evening", "Greetings", "Howdy", "good afternoon", "good evening", "greetings", "howdy", "Meowdy", "meowdy"]
+    tynks = ["ty", "Thank you", "Thanks", "Ty", "thank you", "thanks", "thx", "Thx", "THX", "Thy", "thy", "appreciate", "Appreciate"]
     #react to greetings
     if any(greeting in message.text for greeting in greetings):
         bot.send_message(message.chat.id, "How can i help you? \n\nYou can look at the list of buttons at the bottom right to select one of the available options", parse_mode="html")
