@@ -101,10 +101,10 @@ def handle_message(message):
     elif message.text == "Project":
         # URL send
         markup = types.InlineKeyboardMarkup()
-        markup.add(types.InlineKeyboardButton("First Project", url="albatrosry.com"))
-        markup.add(types.InlineKeyboardButton("My Page", url="https://albatrosry.com/?page_id=1257&lang=fi"))
+        markup.add(types.InlineKeyboardButton("First Project (not online anymore)", url="albatrosry.com"))#Not online anymore
+        markup.add(types.InlineKeyboardButton("My Page (not online anymore)", url="https://albatrosry.com/?page_id=1257&lang=fi"))#Not online anymore
         markup.add(types.InlineKeyboardButton("Second Project", url="https://artur-nayman.github.io/Asiakasty-2022v2/"))
-        bot.send_message(message.chat.id, "Here is the sites that I created.\nNow in the first is a new administrator, who deleted half of features what i added :( \nBut on \"My Page\" you can see proofs about that i been andministrator of that website.\nIn second project you can see original web site created when i was project manager. \nNew projects you can see on my GitHub.", reply_markup=markup)
+        bot.send_message(message.chat.id, "Here is the sites that I created.\nNow in the first is a new administrator, who deleted half of features what i added \nBut on \"My Page\" you can see proofs about that i been andministrator of that website.\nIn second project you can see original web site created when i was project manager. \nNew projects you can see on my GitHub.(Old text, firs two link are not currently available. Going to update them later by my portfolio)", reply_markup=markup)
     #Button for my CV
     elif message.text == "CV":
         #CV send
