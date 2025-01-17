@@ -4,7 +4,6 @@ from telebot import types
 from bs4 import BeautifulSoup as BS
 from requests import get
 
-#З'єднання з базою даних
 #connect to database
 conn = mysql.connector.connect(host="localhost", port="3306", user="root", password="root", database="artur_bot")
 cursor = conn.cursor()
@@ -19,7 +18,7 @@ not_clear_game = site.find_all('span', class_="YLosEL")
 not_clear_price = site.find_all('span', class_="L5ErLT")
 game = [c.text for c in not_clear_game]
 game_price =[c.text for c in not_clear_price]
-price = [float(price[1:]) for price in game_price] #Перетворює у флоат кожен елемент списка окрім першого | Transformation into float every element instead first
+price = [float(price[1:]) for price in game_price] #Transformation into float every element instead first
 filter_price = 0
 n_game = []
 
@@ -44,13 +43,13 @@ def prices():
             sql = "INSERT INTO xbox (Title, Price) VALUES (%s, %s)"
             cursor.execute(sql, (Title, Price))
             conn.commit()
-        # Закриття курсора і з'єднання з базою даних | Closing the cursor and connecting to the database
+        # Closing the cursor and connecting to the database
         cursor.close()
         conn.close()
     except:
         None
 
-@bot.message_handler(commands=["start"])# Починає бота з кнопками | Starting bot + show buttons
+@bot.message_handler(commands=["start"])# Starting bot + show buttons
 def start(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     project = types.KeyboardButton("Project")
@@ -65,12 +64,10 @@ def handle_message(message):
     global filter_price
     global n_game
     global game
-    #Вивід списку Xbox
     #Xbox list output
     try:
-        filter_price = float(message.text)  # Преобразовання введенного значення в число | Conversion of the entered value into a number
+        filter_price = float(message.text)  # Conversion of the entered value into a number
         prices()
-        # Виповнення SQL-запроса для виборки даних
         # Exrcution of SQL-query for data selection
         sql = "SELECT Title, Price FROM xbox"
         cursor.execute(sql)
@@ -80,8 +77,8 @@ def handle_message(message):
         # Вивід даних
         # Data output
         for row in results:
-            title = row[0]# Отримування назви гри з першого стовбця (індекс 0) | Get name of game (index 0)
-            price = row[1] # Отримування ціни гри з другого стовбця (індекс 1) | Get price of game (index 1)
+            title = row[0]# Get name of game (index 0)
+            price = row[1] # Get price of game (index 1)
             bot.reply_to(message, f'Title: {title} \n \nPrice: {price}$') #Send answer
 
 
